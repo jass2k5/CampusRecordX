@@ -51,3 +51,5 @@ class StudentManager:
 
 
 
+manager = StudentManager()
+manager.add_students()
