@@ -14,5 +14,5 @@ def is_valid_cgpa(cgpa):
         try:
                 cgpa = float(cgpa)
                 return cgpa >= 0.0 and cgpa <= 10.0 and round(cgpa,2) == cgpa
-        except (ValueError or TypeError):
+        except (ValueError,TypeError):
                 return False

@@ -5,5 +5,5 @@ def get_user_input(prompt):
     if user_input.lower() in ['q', 'e']:
         print("Exiting input... 🏃‍♂️")
         return None
-
+    
     return user_input

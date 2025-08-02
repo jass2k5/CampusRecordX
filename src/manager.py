@@ -66,20 +66,22 @@ class StudentManager:
                 print("invalid email❌".title())
                 continue
         while True:
-          cgpa = get_user_input("enter your cgpa")
-          if cgpa is None:
+          cgpa_input = get_user_input("enter your cgpa")
+          if cgpa_input is None:
                return
-          if not is_valid_cgpa:
+          if not is_valid_cgpa(cgpa_input):
               print("⚠️invalid input try again".title())
               continue
           else:
+              cgpa = float(cgpa_input)
               print(f"{roll}:{cgpa}")
               break
+           
 
         student = Student(name,roll,course,phone,email,cgpa)
         self.students[roll] = student
-        self.display_all()
-
+        self.check_result_by_roll()
+         
     def display_all(self):
         print("list of students loading........\n".title())
         if not self.students:
@@ -88,7 +90,7 @@ class StudentManager:
         else:
             for i,(roll,student) in enumerate(self.students.items(),start = 1):
                 print(f"{roll} -- {student}")
-        self.leaderboard_by_cgpa()   
+          
     def search_bycourse(self):
         course_query = get_user_input("enter the name of your course")
         if course_query is None:
@@ -122,7 +124,29 @@ class StudentManager:
         sorted_students = sorted(self.students.values(),key = lambda s: s.cgpa,reverse = True)
         for rank,student in enumerate(sorted_students,start = 1):
             print(f"{rank}:{student}")
+    def check_result_by_roll(self):
+        roll_input = input("enter your roll number")
+        roll = is_valid_roll(roll_input)
+        if roll is None:
+            print("enter a valid roll number")
+            return
+        student = self.students.get(roll)
+        if not student:
+            print("no student with this roll number")
+            return
+        
+        print(f"{student.name}'s result: {student.result()} with CGPA {student.cgpa}")
 
+        
+
+                           
+
+
+            
+            
+
+
+        
            
 btech_sec1= StudentManager()
 btech_sec1.add_students()
