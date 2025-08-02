@@ -28,7 +28,7 @@ class StudentManager:
                 roll_input = roll_input.strip()
                 roll = is_valid_roll(roll_input)
                 if roll is not None:
-                    print(f"entered roll number:\n {roll}")
+                    print(f"entered roll number:\n {roll}".title())
                     break
                 else:
                     print("⚠️wrong input")
@@ -40,7 +40,7 @@ class StudentManager:
                 return
             course = course.title().strip()
             if not is_valid_text_input(course):
-                print("⚠️enter a valid course name ")
+                print("⚠️enter a valid course name ".title())
                 continue
             else:
                 print(f"entered course:\n{course}")
@@ -50,27 +50,27 @@ class StudentManager:
             if phone is None:
                 return
             if not is_valid_phone(phone):
-                print("⚠️enter a valid 10 digit number please")
+                print("⚠️enter a valid 10 digit number please".title())
                 continue
             else:
-                print(f"entered phone number is:\n{phone}")
+                print(f"entered phone number is:\n{phone}".title())
                 break
         while True:
             email = get_user_input("enter your email")
             if email is None:
                 return
             if is_valid_email(email):
-                print("valid email ✅")
+                print("valid email ✅.".title())
                 break
             else:
-                print("invalid email❌")
+                print("invalid email❌".title())
                 continue
         while True:
           cgpa = get_user_input("enter your cgpa")
           if cgpa is None:
                return
           if not is_valid_cgpa:
-              print("⚠️invalid input try again")
+              print("⚠️invalid input try again".title())
               continue
           else:
               print(f"{roll}:{cgpa}")
@@ -88,9 +88,9 @@ class StudentManager:
         else:
             for i,(roll,student) in enumerate(self.students.items(),start = 1):
                 print(f"{roll} -- {student}")
-            self.search_bycourse()
+        self.leaderboard_by_cgpa()   
     def search_bycourse(self):
-        course_query = get_user_input("enter the name of your course").title().strip()
+        course_query = get_user_input("enter the name of your course")
         if course_query is None:
             return
         found = [s for s in self.students.values() if s.course == course_query]  #the calling str will trigger __str__ method of object student or s 
@@ -99,8 +99,8 @@ class StudentManager:
             for student in studentswithcourse:
                 print(student)
         else:
-            print("⚠️ no such user with this course found")
-        self.remove_student_by_roll()
+            print("⚠️ no such user with this course found".title())
+        
   
     def remove_student_by_roll(self):
         print("e or q to exit")
@@ -110,11 +110,19 @@ class StudentManager:
             if roll in self.students:
                 del self.students[roll]
             else:
-                print("⚠️student not found")
+                print("⚠️student not found".title())
         else:
-            ("⚠️ invalid roll number")
-        self.display_all()
-    #
+            ("⚠️ invalid roll number".title())
+        
+        
+    def leaderboard_by_cgpa(self):
+        if not self.students:
+            print("no student data right now".title())
+            return
+        sorted_students = sorted(self.students.values(),key = lambda s: s.cgpa,reverse = True)
+        for rank,student in enumerate(sorted_students,start = 1):
+            print(f"{rank}:{student}")
+
            
 btech_sec1= StudentManager()
 btech_sec1.add_students()
