@@ -71,6 +71,17 @@ class StudentManager:
                 print(f"{roll} -- {student}")
             print("total students in the class:".title())
             print(len(self.students))
+            self.search_bycourse()
+    def search_bycourse(self):
+        course_query = input("enter the name of your course").title().strip()
+        found = [s for s in self.students.values() if s.course == course_query]  #the calling str will trigger __str__ method of object student or s 
+        if found:
+            studentswithcourse = list(map(lambda s: str(s),found))
+            for student in studentswithcourse:
+                print(student)
+                
+   
+           
 btech_sec1= StudentManager()
 btech_sec1.add_students()
 
