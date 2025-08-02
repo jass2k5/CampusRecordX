@@ -110,11 +110,11 @@ class StudentManager:
             if roll in self.students:
                 del self.students[roll]
             else:
-                print("student not found")
+                print("⚠️student not found")
         else:
             ("⚠️ invalid roll number")
         self.display_all()
-    
+    #
            
 btech_sec1= StudentManager()
 btech_sec1.add_students()
