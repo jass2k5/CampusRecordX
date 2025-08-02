@@ -1,38 +1,43 @@
-from utils.email_util import is_valid_email
+from utils.input_validators import (is_valid_email,
+ is_valid_text_input, is_valid_roll,is_valid_phone,is_valid_cgpa)
 from student import Student
+
 class StudentManager:
     def __init__(self):
         self.students = {}
     def add_students(self):
         while True:
             name = input("please enter your name here:\n").title().strip()
-            if not name.replace(" ","").isalpha():
-                print("enter valid name")
+            if not is_valid_text_input(name):
+                print("⚠️ invalid input".title())
                 continue
+
             else:
-                print(f"entered name:\n{name}")
+                print(f"entered name {name}".title())
                 break
 
         while True:
-            try:
-                roll = int(input("enter your roll number:\n"))
-                print(f"entered roll number:\n {roll}")
-                break
-            except ValueError:
-                print("something went wrong try again")
-                continue
+                roll_input = input("enter you roll no.").title().strip()
+                roll = is_valid_roll(roll_input)
+                if roll is not None:
+                    print(f"entered roll number:\n {roll}")
+                    break
+                else:
+                    print("⚠️wrong input")
+                    continue
+              
         while True:
             course = input("please enter your course:\n").title().strip()
-            if not course.replace(" ","").isalpha():
-                print("enter a valid course name ")
+            if not is_valid_text_input(course):
+                print("⚠️enter a valid course name ")
                 continue
             else:
                 print(f"entered course:\n{course}")
                 break
         while True:
             phone = input("enter your mobile number")
-            if len(phone) != 10 or not phone.isdigit():
-                print("enter a valid 10 digit number please")
+            if not is_valid_phone(phone):
+                print("⚠️enter a valid 10 digit number please")
                 continue
             else:
                 print(f"entered phone number is:\n{phone}")
@@ -46,17 +51,14 @@ class StudentManager:
                 print("invalid email❌")
                 continue
         while True:
-            try:
-                cgpa = float(input("enter your cgpa:\n"))
-                if cgpa < 0.0 or cgpa > 10.0 or round(cgpa,2) != cgpa:
-                    print("invalid cgpa")
-                    continue
-                else:
-                    print(f"{roll} is having cgpa {cgpa}")
-                    break
-            except ValueError:
-                print("something went wrong try again")
-                continue
+          cgpa = input("enter your cgpa")
+          if not is_valid_cgpa:
+              print("⚠️invalid input try again")
+              continue
+          else:
+              print(f"{roll}:{cgpa}")
+              break
+
         student = Student(name,roll,course,phone,email,cgpa)
         self.students[roll] = student
         self.display_all()
