@@ -45,9 +45,21 @@ class StudentManager:
             else:
                 print("invalid email❌")
                 continue
+        while True:
+            try:
+                cgpa = float(input("enter your cgpa:\n"))
+                if cgpa < 0.0 or cgpa > 10.0 or round(cgpa,2) != cgpa:
+                    print("invalid cgpa")
+                    continue
+                else:
+                    print(f"{roll} is having cgpa {cgpa}")
+                    break
+            except ValueError:
+                print("something went wrong try again")
+                continue
 
-
-          
-
-
-
+        student = Student(name,roll,course,phone,email)
+        self.students[roll] = student
+manager = StudentManager()
+manager.add_students()
+        
