@@ -1,5 +1,5 @@
 class Student:
-    def _init_(self,name,roll,course,email,phone,cgpa):
+    def __init__(self,name,roll,course,phone,email,cgpa):
         self.name = name
         self.roll = roll
         self.course = course
@@ -7,9 +7,9 @@ class Student:
         self.phone = phone
         self.cgpa = cgpa
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.name} (Roll: {self.roll} CGPA : {self.cgpa} Course = {self.course} Contacts:{self.email},{self.phone})"
-    def _repr_(self):
+    def __repr__(self):
         return f"Student(name = {self.name}, roll = {self.roll},cgpa = {self.cgpa},contact = {self.email},{self.phone},course:{self.course})"
     def result(self):
         if self.cgpa >5:

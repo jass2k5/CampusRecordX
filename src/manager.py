@@ -57,9 +57,23 @@ class StudentManager:
             except ValueError:
                 print("something went wrong try again")
                 continue
-
-        student = Student(name,roll,course,phone,email)
+        student = Student(name,roll,course,phone,email,cgpa)
         self.students[roll] = student
-manager = StudentManager()
-manager.add_students()
+        self.display_all()
+
+    def display_all(self):
+        print("list of students loading........\n".title())
+        if not self.students:
+            print("no students in this class yet!".title())
+            print("_____________________")
+        else:
+            for i,(roll,student) in enumerate(self.students.items(),start = 1):
+                print(f"{roll} -- {student}")
+            print("total students in the class:".title())
+            print(len(self.students))
+btech_sec1= StudentManager()
+btech_sec1.add_students()
+
+
+
         
