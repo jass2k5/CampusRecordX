@@ -80,7 +80,7 @@ class StudentManager:
 
         student = Student(name,roll,course,phone,email,cgpa)
         self.students[roll] = student
-        self.check_result_by_roll()
+        self.edit_data()
          
     def display_all(self):
         print("list of students loading........\n".title())
@@ -137,10 +137,70 @@ class StudentManager:
         
         print(f"{student.name}'s result: {student.result()} with CGPA {student.cgpa}")
 
-        
+    def edit_data(self):
+        roll_input = input("Enter your roll number: ")
+        roll = is_valid_roll(roll_input)
 
-                           
+        if roll is None or roll not in self.students:
+            print("❌ Invalid or unknown roll number.")
+            return
+        student = self.students[roll]
 
+        field = input("Enter the field you want to change (name, course, phone, email, cgpa, roll): ").strip().lower()
+        new_value = input("Enter your new value: ").strip()
+
+        if field == "phone":
+            if is_valid_phone(new_value):
+             student.phone = new_value
+             print("✅ Phone updated.")
+            else:
+                print("❌ Invalid phone number.")
+        elif field == "cgpa":
+            try:
+                new_cgpa = float(new_value)
+                if is_valid_cgpa(new_cgpa):
+                    student.cgpa = new_cgpa
+                    print("✅ CGPA updated.")
+                else:
+                    print("❌ Invalid CGPA.")
+            except ValueError:
+                print("❌ Please enter a valid number.")
+        elif field == "roll":
+            new_roll = is_valid_roll(new_value)
+            if new_roll is None:
+                print("❌ Invalid roll number.")
+            elif new_roll in self.students:
+                print("❌ Roll number already in use.")
+            else:
+            # Update roll: change key and attribute
+                del self.students[roll]
+                student.roll = new_roll
+                self.students[new_roll] = student
+                print("✅ Roll number updated.")
+
+        elif field == "name":
+            if is_valid_text_input(new_value):
+                student.name = new_value.title().strip()
+                print("✅ Name updated.")
+            else:
+                print("❌ Invalid name.")
+
+        elif field == "course":
+            if is_valid_text_input(new_value):
+                student.course = new_value.title().strip()
+                print("✅ Course updated.")
+            else:
+                print("❌ Invalid course name.")
+
+        elif field == "email":
+            if is_valid_email(new_value):
+                student.email = new_value
+                print("✅ Email updated.")
+            else:
+                print("❌ Invalid email address.")
+
+        else:
+            print("❌ Invalid field.")
 
             
             
