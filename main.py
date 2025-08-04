@@ -6,78 +6,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "utils")
 from src.manager import StudentManager
 from utils.input_helper import get_user_input
 from utils.input_validators import (is_valid_cgpa,is_valid_email,is_valid_phone,is_valid_roll,is_valid_text_input)
+from utils.collectandadd import collect_and_student
 def main():
     manager = StudentManager()
     while True:
-        name = get_user_input("please enter your name here:\n")
-        if name is None:
-            return
-        name = name.title().strip()
-        if not is_valid_text_input(name):
-            print("⚠️ invalid input".title())
-            continue
+       choice = input("choose 1 to add students\n choose 2 to display students\n choose 3 to search by course\n choose 4 for remove student\n choose 5 for leaderboard\n choose 6 for check result\n choose 7 for edit the student info.")
+       if choice == "1":
+            collect_and_student(manager)
+       elif choice == "2":
+            manager.display_all()
+       elif choice == "3":
+           manager.search_bycourse()
+       elif choice == "4":
+           manager.remove_student_by_roll()
+       elif choice == "5":
+           manager.leaderboard_by_cgpa()
+       elif choice == "6":
+           manager.check_result_by_roll()
+       elif choice == "7":
+           manager.edit_data()
+       else:
+           print("wrong input please try again")
+           continue
+            
 
-        else:
-            print(f"entered name {name}".title())
-            break
 
-    while True:
-            roll_input = get_user_input("enter you roll no.")
-            if roll_input is None:
-                return
-            roll_input = roll_input.strip()
-            roll = is_valid_roll(roll_input)
-            if roll is not None:
-                print(f"entered roll number:\n {roll}".title())
-                break
-            else:
-                print("⚠️wrong input")
-                continue
-              
-    while True:
-        course = get_user_input("please enter your course:\n")
-        if course is None:
-            return
-            course = course.title().strip()
-        if not is_valid_text_input(course):
-            print("⚠️enter a valid course name ".title())
-            continue
-        else:
-            print(f"entered course:\n{course}")
-            break
-    while True:
-            phone = get_user_input("enter your mobile number")
-            if phone is None:
-                return
-            if not is_valid_phone(phone):
-                print("⚠️enter a valid 10 digit number please".title())
-                continue
-            else:
-                print(f"entered phone number is:\n{phone}".title())
-                break
-    while True:
-            email = get_user_input("enter your email")
-            if email is None:
-                return
-            if is_valid_email(email):
-                print("valid email ✅.".title())
-                break
-            else:
-                print("invalid email❌".title())
-                continue
-    while True:
-          cgpa_input = get_user_input("enter your cgpa")
-          if cgpa_input is None:
-               return
-          if not is_valid_cgpa(cgpa_input):
-              print("⚠️invalid input try again".title())
-              continue
-          else:
-              cgpa = float(cgpa_input)
-              print(f"{roll}:{cgpa}")
-              break
-    manager.add_students(name,roll,course,phone,email,cgpa)
-    while True:
-         print("choose 1 to add students\n choose 2 to display students")
+
 if __name__ == "__main__":
      main()
