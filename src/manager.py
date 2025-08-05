@@ -1,7 +1,8 @@
 from utils.input_validators import (is_valid_email,
  is_valid_text_input, is_valid_roll,is_valid_phone,is_valid_cgpa)
 from utils.input_helper import get_user_input
-from src.student import Student
+from student import Student
+from utils.collectandadd import get_valid_input
 
 class StudentManager:
     def __init__(self):
@@ -70,68 +71,43 @@ class StudentManager:
         roll = is_valid_roll(roll_input)
 
         if roll is None or roll not in self.students:
-            print("❌ Invalid or unknown roll number.")
-            return
+             print("❌ Invalid or unknown roll number.")
+             return
         student = self.students[roll]
 
+        
+
+        editable_fields = {
+        "name": (is_valid_text_input, "❌ Invalid name.", lambda x: x.strip().title()),
+        "course": (is_valid_text_input, "❌ Invalid course name.", lambda x: x.strip().title()),
+        "phone": (is_valid_phone, "❌ Invalid phone number.", str),
+        "email": (is_valid_email, "❌ Invalid email address.", str),
+        "cgpa": (is_valid_cgpa, "❌ Invalid CGPA.", lambda x: float(x.strip())),
+        "roll": (lambda x: is_valid_roll(x) if is_valid_roll(x) not in self.students else None,
+                 "❌ Invalid or duplicate roll number.", lambda x: int(x.strip()))
+        }
+  
         field = input("Enter the field you want to change (name, course, phone, email, cgpa, roll): ").strip().lower()
-        new_value = input("Enter your new value: ").strip()
 
-        if field == "phone":
-            if is_valid_phone(new_value):
-             student.phone = new_value
-             print("✅ Phone updated.")
-            else:
-                print("❌ Invalid phone number.")
-        elif field == "cgpa":
-            try:
-                new_cgpa = float(new_value)
-                if is_valid_cgpa(new_cgpa):
-                    student.cgpa = new_cgpa
-                    print("✅ CGPA updated.")
-                else:
-                    print("❌ Invalid CGPA.")
-            except ValueError:
-                print("❌ Please enter a valid number.")
-        elif field == "roll":
-            new_roll = is_valid_roll(new_value)
-            if new_roll is None:
-                print("❌ Invalid roll number.")
-            elif new_roll in self.students:
-                print("❌ Roll number already in use.")
-            else:
-            # Update roll: change key and attribute
+        if field in editable_fields:
+            validator, error_msg, transformer = editable_fields[field]
+
+            new_value = get_valid_input(
+            f"Enter your new {field}: ",
+            validator,
+            error_msg,
+            transform=transformer
+        )
+
+        if new_value is not None:
+            if field == "roll":
+                # Roll number requires key change in dictionary
                 del self.students[roll]
-                student.roll = new_roll
-                self.students[new_roll] = student
-                print("✅ Roll number updated.")
-
-        elif field == "name":
-            if is_valid_text_input(new_value):
-                student.name = new_value.title().strip()
-                print("✅ Name updated.")
+                student.roll = new_value
+                self.students[new_value] = student
             else:
-                print("❌ Invalid name.")
+                setattr(student, field, new_value)
 
-        elif field == "course":
-            if is_valid_text_input(new_value):
-                student.course = new_value.title().strip()
-                print("✅ Course updated.")
-            else:
-                print("❌ Invalid course name.")
-
-        elif field == "email":
-            if is_valid_email(new_value):
-                student.email = new_value
-                print("✅ Email updated.")
-            else:
-                print("❌ Invalid email address.")
-
+            print(f"✅ {field.capitalize()} updated.")
         else:
             print("❌ Invalid field.")
-
-#ends here 
-
-
-
-        
