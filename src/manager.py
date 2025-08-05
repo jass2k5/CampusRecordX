@@ -1,7 +1,7 @@
 from utils.input_validators import (is_valid_email,
  is_valid_text_input, is_valid_roll,is_valid_phone,is_valid_cgpa)
 from utils.input_helper import get_user_input
-from student import Student
+from src.student import Student
 
 class StudentManager:
     def __init__(self):
@@ -9,7 +9,7 @@ class StudentManager:
     def add_students(self,name,roll,course,phone,email,cgpa):
             student = Student(name,roll,course,phone,email,cgpa)
             self.students[roll] = student
-         
+            print(f"students {self.students}")
     def display_all(self):
         print("list of students loading........\n".title())
         if not self.students:
@@ -17,7 +17,7 @@ class StudentManager:
             print("_____________________")
         else:
             for i,(roll,student) in enumerate(self.students.items(),start = 1):
-                print(f"{roll} -- {student}")
+                print(f"{i}.{roll} -- {student}")
           
     def search_bycourse(self):
         course_query = get_user_input("enter the name of your course")
@@ -42,7 +42,7 @@ class StudentManager:
             else:
                 print("⚠️student not found".title())
         else:
-            ("⚠️ invalid roll number".title())
+                print("⚠️ invalid roll number".title())
         
         
     def leaderboard_by_cgpa(self):
